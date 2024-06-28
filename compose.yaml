@@ -11,15 +11,15 @@ services:
             MYSQL_HOST: mysql
             MYSQL_USER: root
             MYSQL_PASSWORD: secret
-            MYSQL_DB: todos
+            MYSQL_DB: car-dealer
 
     mysql:
         image: mysql:8.0
         volumes:
-            - todo-mysql-data:/var/lib/mysql
+            - car-dealer-mysql-data:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: secret
-            MYSQL_DATABASE: todos
+            MYSQL_DATABASE: car-dealer
 
 volumes:
-    todo-mysql-data:
+    car-dealer-mysql-data:
