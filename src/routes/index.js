@@ -1,6 +1,8 @@
-const db = require('../db');
+const express = require("express");
+const { getCars } = require("../controllers/car");
 
-module.exports = async (req, res) => {
-    const cars = await db.getCars;
-    res.send(cars);
-};
+const router = express.Router();
+
+router.get("/cars", getCars);
+
+module.exports = router;
