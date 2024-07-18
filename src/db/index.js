@@ -7,7 +7,7 @@ let pool;
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  database: "car-dealer",
+  database: "car_dealer",
   password: "25091994",
   port: 3306,
   multipleStatements: true,
@@ -25,10 +25,7 @@ function init() {
       brand_id int,
       name varchar(50),
       fuel_type varchar(15),
-      reg_year varchar(15),
-      reg_number varchar(25),
       engine_cc varchar(25),
-      price varchar(25),
       CONSTRAINT PK_model PRIMARY KEY (id,
       name),
       FOREIGN KEY (brand_id) REFERENCES brand(id));
@@ -36,6 +33,8 @@ function init() {
       CREATE TABLE IF NOT EXISTS car (id int NOT NULL AUTO_INCREMENT,
       name varchar(50),
       model_id int,
+      plate_number varchar(25),
+      price int,
       PRIMARY KEY (id),
       FOREIGN KEY (model_id) REFERENCES model(id));
 
@@ -110,7 +109,7 @@ function init() {
       PRIMARY KEY (id));
     `,
     (err, result) => {
-      console.log(`Connected to mysql db at host ${MYSQL_HOST}`, err, result);
+      // console.log(`Connected to mysql db at host ${MYSQL_HOST}`, err, result);
     }
   );
 }
