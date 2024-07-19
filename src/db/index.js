@@ -1,16 +1,18 @@
 const mysql = require("mysql2");
 
-const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB } = process.env;
+const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
 let pool;
 
 const connection = mysql.createConnection({
   host: "mysql",
   user: MYSQL_USER,
-  database: MYSQL_DB,
+  database: MYSQL_DATABASE,
   password: MYSQL_PASSWORD,
   multipleStatements: true,
 });
+
+console.log("env", MYSQL_USER, MYSQL_DATABASE, MYSQL_PASSWORD);
 
 function init() {
   connection.query(

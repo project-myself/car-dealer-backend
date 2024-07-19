@@ -8,19 +8,20 @@ services:
       - ./:/app
     environment:
       MYSQL_HOST: mysql
-      MYSQL_USER: dealer
-      MYSQL_PASSWORD: 25091994
-      MYSQL_DB: car-dealer
+      MYSQL_DATABASE: car-dealer
+      MYSQL_USER: car-dealer
+      MYSQL_PASSWORD: car-dealer@2024
   mysql:
     image: mysql:8.0
+    command: --default-authentication-plugin=caching_sha2_password
     volumes:
       - car-dealer-mysql-data:/var/lib/mysql
     ports:
       - 3307:3306
     environment:
-      MYSQL_ROOT_PASSWORD: 25091994
+      MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: car-dealer
-      MYSQL_USER: dealer
-      MYSQL_PASSWORD: 25091994
+      MYSQL_USER: car-dealer
+      MYSQL_PASSWORD: car-dealer@2024
 volumes:
   car-dealer-mysql-data:
