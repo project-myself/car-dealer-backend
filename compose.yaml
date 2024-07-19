@@ -1,20 +1,16 @@
 services:
   app:
-    image: node:20-alpine
-    command: sh -c "yarn && yarn dev"
+    build: .
     ports:
       - 3001:3000
     working_dir: /app
     volumes:
       - ./:/app
     environment:
-      MYSQL_HOST: localhost
-      MYSQL_USER: root
-      MYSQL_PASSWORD: secret
+      MYSQL_HOST: mysql
+      MYSQL_USER: dealer
+      MYSQL_PASSWORD: 25091994
       MYSQL_DB: car-dealer
-    networks:
-      - nodejs
-
   mysql:
     image: mysql:8.0
     volumes:
@@ -22,13 +18,9 @@ services:
     ports:
       - 3307:3306
     environment:
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: 25091994
       MYSQL_DATABASE: car-dealer
-    networks:
-      - nodejs
-
+      MYSQL_USER: dealer
+      MYSQL_PASSWORD: 25091994
 volumes:
   car-dealer-mysql-data:
-
-networks:
-  nodejs:

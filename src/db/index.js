@@ -5,11 +5,10 @@ const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB } = process.env;
 let pool;
 
 const connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "car_dealer",
-  password: "25091994",
-  port: 3306,
+  host: "mysql",
+  user: MYSQL_USER,
+  database: MYSQL_DB,
+  password: MYSQL_PASSWORD,
   multipleStatements: true,
 });
 
@@ -109,7 +108,7 @@ function init() {
       PRIMARY KEY (id));
     `,
     (err, result) => {
-      // console.log(`Connected to mysql db at host ${MYSQL_HOST}`, err, result);
+      console.log(`Connected to mysql db at host ${MYSQL_HOST}`, err, result);
     }
   );
 }
