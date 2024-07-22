@@ -2,8 +2,6 @@ const mysql = require("mysql2");
 
 const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = process.env;
 
-let pool;
-
 const connection = mysql.createConnection({
   host: "mysql",
   user: MYSQL_USER,
@@ -12,7 +10,13 @@ const connection = mysql.createConnection({
   multipleStatements: true,
 });
 
-console.log("env", MYSQL_USER, MYSQL_DATABASE, MYSQL_PASSWORD);
+const promiseConnection = mysqlPromise.createConnection({
+  host: "mysql",
+  user: MYSQL_USER,
+  database: MYSQL_DATABASE,
+  password: MYSQL_PASSWORD,
+  multipleStatements: true,
+});
 
 function init() {
   connection.query(
@@ -32,12 +36,13 @@ function init() {
       FOREIGN KEY (brand_id) REFERENCES brand(id));
 
       CREATE TABLE IF NOT EXISTS car (id int NOT NULL AUTO_INCREMENT,
-      name varchar(50) NOT NULL,
+      name varchar(50),
       model_id int NOT NULL,
       plate_number varchar(25),
       price int,
-      PRIMARY KEY (id),
-      UNIQUE (name),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+      CONSTRAINT PK_car PRIMARY KEY (id, name),
       FOREIGN KEY (model_id) REFERENCES model(id));
 
       CREATE TABLE IF NOT EXISTS user (id int NOT NULL AUTO_INCREMENT,
@@ -116,18 +121,7 @@ function init() {
   );
 }
 
-async function getCars() {
-  return new Promise((acc, rej) => {
-    pool.query("SELECT * FROM car", (err, rows) => {
-      if (err) return rej(err);
-      console.log("rows", rows);
-      // acc(rows);
-    });
-  });
-}
-
 module.exports = {
   init,
-  getCars,
   connection,
 };

@@ -5,8 +5,8 @@ const getCars = (req, res) => {
   const {
     limit = 5,
     offset = 0,
-    order_by = "name",
-    order_direction = "ASC",
+    order_by = "created_at",
+    order_direction = "DESC",
   } = req.query;
   connection.query(
     `
@@ -54,19 +54,26 @@ const createCar = (req, res) => {
   });
 };
 
-const editCar = (req, res) => {
+const editCar = async (req, res) => {
   const {
     params: { id },
   } = req;
   const newCar = pick(req.body, ["name", "model_id", "plate_number", "price"]);
-  connection.query(
-    "UPDATE car SET ? WHERE id = ?",
-    [newCar, id],
-    (error, results) => {
-      if (error) return res.json({ error });
-      res.json(results);
+  connection.query(`SELECT id FROM car WHERE id = ${id}`, (error, results) => {
+    if (error) return res.json({ error });
+    if (results?.length === 0) {
+      res.json({ message: "id is not existed" });
+    } else {
+      connection.query(
+        "UPDATE car SET ? WHERE id = ?",
+        [newCar, id],
+        (error, results) => {
+          if (error) return res.json({ error });
+          res.json(results);
+        }
+      );
     }
-  );
+  });
 };
 
 const deleteCar = (req, res) => {
