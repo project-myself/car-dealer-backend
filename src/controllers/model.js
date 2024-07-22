@@ -1,7 +1,8 @@
 const { connection } = require("../db");
 
 const getModels = (_, res) => {
-  connection.query("SELECT * FROM model", (_, results) => {
+  connection.query("SELECT * FROM model", (error, results) => {
+    if (error) return res.json({ error });
     res.json(results);
   });
 };

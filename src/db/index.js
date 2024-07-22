@@ -23,7 +23,7 @@ function init() {
       name));
 
       CREATE TABLE IF NOT EXISTS model (id int NOT NULL AUTO_INCREMENT,
-      brand_id int,
+      brand_id int NOT NULL,
       name varchar(50),
       fuel_type varchar(15),
       engine_cc varchar(25),
@@ -32,11 +32,12 @@ function init() {
       FOREIGN KEY (brand_id) REFERENCES brand(id));
 
       CREATE TABLE IF NOT EXISTS car (id int NOT NULL AUTO_INCREMENT,
-      name varchar(50),
-      model_id int,
+      name varchar(50) NOT NULL,
+      model_id int NOT NULL,
       plate_number varchar(25),
       price int,
       PRIMARY KEY (id),
+      UNIQUE (name),
       FOREIGN KEY (model_id) REFERENCES model(id));
 
       CREATE TABLE IF NOT EXISTS user (id int NOT NULL AUTO_INCREMENT,
@@ -55,9 +56,9 @@ function init() {
       phone));
 
       CREATE TABLE IF NOT EXISTS inspection_form (id int NOT NULL AUTO_INCREMENT,
-      inspector_id int,
-      customer_id int,
-      car_model_id int,
+      inspector_id int NOT NULL,
+      customer_id int NOT NULL,
+      car_model_id int NOT NULL,
       status varchar(15),
       date_time timestamp,
       PRIMARY KEY (id),
@@ -66,15 +67,15 @@ function init() {
       FOREIGN KEY (car_model_id) REFERENCES model(id));
 
       CREATE TABLE IF NOT EXISTS inspection_report (id int NOT NULL AUTO_INCREMENT,
-      inspector_id int,
+      inspector_id int NOT NULL,
       car_id int,
       created_date timestamp,
       PRIMARY KEY (id),
       FOREIGN KEY (inspector_id) REFERENCES user(id));
 
       CREATE TABLE IF NOT EXISTS test_drive_form (id int NOT NULL AUTO_INCREMENT,
-      customer_id int,
-      car_id int,
+      customer_id int NOT NULL,
+      car_id int NOT NULL,
       date_time timestamp,
       PRIMARY KEY (id),
       FOREIGN KEY (customer_id) REFERENCES customer(id),
@@ -91,15 +92,15 @@ function init() {
       name));
 
       CREATE TABLE IF NOT EXISTS user_role (id int NOT NULL AUTO_INCREMENT,
-      user_id int,
-      role_id int,
+      user_id int NOT NULL,
+      role_id int NOT NULL,
       PRIMARY KEY (id),
       FOREIGN KEY (user_id) REFERENCES user(id),
       FOREIGN KEY (role_id) REFERENCES role(id));
 
       CREATE TABLE IF NOT EXISTS user_permission (id int NOT NULL AUTO_INCREMENT,
-      user_id int,
-      permission_id int,
+      user_id int NOT NULL,
+      permission_id int NOT NULL,
       PRIMARY KEY (id),
       FOREIGN KEY (user_id) REFERENCES user(id),
       FOREIGN KEY (permission_id) REFERENCES permission(id));

@@ -1,7 +1,8 @@
 const { connection } = require("../db");
 
 const getBrands = (_, res) => {
-  connection.query("SELECT * FROM brand", (_, results) => {
+  connection.query("SELECT * FROM brand", (error, results) => {
+    if (error) return res.json({ error });
     res.json(results);
   });
 };
